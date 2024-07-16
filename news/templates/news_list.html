@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Новости</h1>
+{% for obj in news %}
+    <div>
+        <a href="/new-detail/{{ obj.id }}/">{{ obj.title }}</a>
+    </div>
+{% endfor %}
+{% endblock %}

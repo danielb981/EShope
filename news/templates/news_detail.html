@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+<h1>Страница одной новости</h1>
+<h2>{{ new.title }}</h2>
+<div>{{ new.article }}</div>
+<div>Категория: {{ new.category.name }}</div>
+<div>Просмотры: {{ new.views }}</div>
+<div>Уникальные просмотры: {{ new.user_views.count }}</div>
+</div>
+<h3>Пользователи, просмотревшие данную новость:</h3>
+{% for user in new.user_views.all %}
+    <div>{{ user.username }}</div>
+{% endfor %}
+{% endblock %}

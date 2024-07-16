@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Клиенты</h1>
+{% for costumer in costumer_list %}
+    <div>{{ costumer.name }}</div>
+{% endfor %}
+{% endblock %}

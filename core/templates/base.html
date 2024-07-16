@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<!-- 1 -->
+{% load static %}
+
+<html>
+<head>
+    <title>Проект eshop!</title>
+    <!-- 2 -->
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <nav>
+        <a href="/">Главная</a> |
+        <a href="/costumers/">Покупатели</a> |
+        <a href="{% url 'news-list' %}">Новости</a> |
+        <a href="/users/">Пользователи</a> |
+        <a href="/admin/">Админка</a>
+    </nav>
+
+    {% block content %}
+
+    {% endblock %}
+
+    <!-- br*10 -->
+    <br><br><br><br><br><br><br><br><br><br>
+    <footer>
+        Все права защищены (с)
+    </footer>
+</body>
+</html>

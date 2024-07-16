@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if request.user.is_authenticated %}
+    <div class="cabinet-link">
+        <a href="/user/{{ request.user.id }}/">
+            {{ request.user }}
+        </a>
+    </div>
+{% endif %}
+
+<h1>Товары</h1>
+{% for product in products %}
+    <div>{{ product.id }}.
+        <a href="/product/{{ product.id }}/">{{ product.name }}</a>
+         - {{ product.price }} сом
+    </div>
+{% endfor %}
+
+{% endblock %}

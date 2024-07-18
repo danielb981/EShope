@@ -1,7 +1,8 @@
 from django.shortcuts import render, HttpResponse
-from .models import Product
+from .models import *
 from costumerapp.models import Costumer
 from django.contrib.auth.models import User
+
 
 # Create your views here.
 def homepage(request):
@@ -53,3 +54,9 @@ def users_list(request):
     user_list = User.objects.all()
     context = {"users": user_list}
     return render(request, 'user.html', context)
+
+def profile_list(request):
+    profile = Profile.object.all()
+    context = {"profiles": profile}
+    return render(request, "user.html", context)
+

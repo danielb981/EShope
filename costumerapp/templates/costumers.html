@@ -3,7 +3,24 @@
 {% block content %}
 
 <h1>Клиенты</h1>
-{% for costumer in costumer_list %}
-    <div>{{ costumer.name }}</div>
-{% endfor %}
+
+<table class="table table-striped table-bordered table-hover">
+	<thead>
+		<tr>
+			<th>Имя</th>
+			<th>Возраст</th>
+			<th>Пол</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for costumer in costumer_list %}
+		<tr>
+			<th>{{ costumer.name }}</th>
+			<th>{{ costumer.age }}</th>
+			<th>{{ costumer.gender }}</th>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
 {% endblock %}

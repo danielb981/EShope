@@ -3,12 +3,15 @@
 {% block content %}
 
 <h1>Пользователи</h1>
-<ul>
+<div class="card card-header card-footer">
+	<div class="card-body">Пользователь</div>
 {% for user in users %}
-    <li>
-        <a href="/user/{{ user.id }}/">{{ user }}</a>
-    </li>
+	<div class="card">
+		<div class="card-header">{{ user.username }}</div>
+		<div class="card-body">Является сотрудником: {{ user.is_staff }}</div>
+		<div class="card-footer">{{ user.is_email }}</div>
+	</div>
 {% endfor %}
-</ul>
-
+</div>
 {% endblock %}
+<!--<a href="/user/{{ user.id }}/">{{ user }}-->

@@ -32,4 +32,5 @@ urlpatterns = [
     path('new-detail/<int:id>/', new_detail, name='new-detail'),
     path('users/', users_list),
     path('user/<int:id>/', user_cabinet, name='user-cabinet'),
+    path('profiles/', profile_list, name='profile_list'),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

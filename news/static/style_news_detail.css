@@ -1,0 +1,12 @@
+body {
+background-color: black;
+}
+
+h2 {
+    alto: ddd;
+    webkit-font-smoothing: antialiased;
+    font-family: Fira Sans, sans-serif;
+    color: var(--mine-shaft);
+    font-size: 1.5rem;
+    line-height: 1.3;
+}

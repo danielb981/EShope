@@ -13,11 +13,19 @@
 </head>
 <body>
     <nav>
-        <a href="/">Главная</a>|
-        <a href="/costumers/">Покупатели</a>|
-        <a href="{% url 'news-list' %}">Новости</a>|
-        <a href="/users/">Пользователи</a>|
-        <a href="/admin/">Админка</a>|
+        <a href="/">Главная</a>
+        <a href="{% url 'product-create' %}">Добавить товар</a>
+        <a href="/costumers/">Покупатели</a>
+		<a href="{% url 'costumer-create' %}">Добавить покупателя</a>
+		<a href="{% url 'profile-create' %}">Добавить профиль</a>
+        <a href="{% url 'news-list' %}">Новости</a>
+        <a href="{% url 'new-create' %}">Добавить новость</a>
+        <a href="/users/">Пользователи</a>
+        <a href="/admin/">Админка</a>
+		<form action="/search/" method="GET">
+            <input type="text" name="keyword">
+            <button>Поиск</button>
+        </form>
     </nav>
 
 	<div class="container-fluid p-5 bg-primary text-white text-center">

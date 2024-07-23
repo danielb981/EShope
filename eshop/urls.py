@@ -19,18 +19,23 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from core.views import *
-from costumerapp.views import costumer_view
+from costumerapp.views import *
 from news.views import *
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', homepage),
+    path('search/', search),
+    path('product-create/', product_create, name='product-create'),
     path('product/<int:id>/', product_detail, name='product-detail'),
-    path('costumers/', costumer_view),
+    path('costumers/', costumer_view, name='costumer-list'),
+    path('costumer_create/', costumer_create, name='costumer-create'),
+    path('profile/', create_profile, name='profile_list' ),
+    path('profile_create/', create_profile, name='profile-create'),
     path('news/', news_list, name='news-list'),
     path('new-detail/<int:id>/', new_detail, name='new-detail'),
+    path('new-create/', new_create, name='new-create'),
     path('users/', users_list),
-    path('user/<int:id>/', user_cabinet, name='user-cabinet'),
-    path('profiles/', profile_list, name='profile_list'),
+
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2>Добавить покупателя</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ costumer_form }}
+    <button type="submit">Добавить покупателя</button>
+  </form>
+{% endblock %}

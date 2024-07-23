@@ -1,7 +1,9 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import redirect, render, HttpResponse
 from .models import *
 from costumerapp.models import Costumer
 from django.contrib.auth.models import User
+from .forms import ProductForm, ProfileForm, UserForm
+from .filters import ProductFilter
 
 
 # Create your views here.
@@ -9,7 +11,12 @@ def homepage(request):
     # SELECT * FROM Product;
     product_list = Product.objects.all()
 
-    context = {"products": product_list}
+    filter_object = ProductFilter(
+        data=request.GET,
+        queryset=product_list
+    )
+
+    context = {"filter_object": filter_object}
 
     # return HttpResponse("Hello Django!")
     return render(request, 'index.html', context)
@@ -44,6 +51,34 @@ def product_detail(request, id):
     }
     return render(request, 'product_detail.html', context)
 
+def product_create(request):
+    context = {}
+    context["product_form"] = ProductForm()
+
+    if request.method == "GET":
+        return render(request, 'product_create.html', context)
+    if request.method == "POST":
+        product_form = ProductForm(request.POST)
+        if product_form.is_valid():
+            product_form.save()
+            return HttpResponse("Успешно сохранено!")
+        return HttpResponse("Ошибка валидации!")
+
+
+def create_profile(request):
+    if request.method == "POST":
+        user_form = UserForm(request.POST)
+        profile_form = ProfileForm(request.POST)
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save()
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            profile.save()
+            return redirect('profile_list')
+    else:
+        user_form = UserForm()
+        profile_form = ProfileForm()
+    return render(request, 'create_profile.html', {'user_form': user_form, 'profile_form': profile_form})
 
 def user_cabinet(request, id):
     user = User.objects.get(id=id)
@@ -55,8 +90,10 @@ def users_list(request):
     context = {"users": user_list}
     return render(request, 'user.html', context)
 
-def profile_list(request):
-    profile = Profile.object.all()
-    context = {"profiles": profile}
-    return render(request, "user.html", context)
+def search(request):
+    keyword = request.GET["keyword"]
+    # LIKE
+    products = Product.objects.filter(name__icontains=keyword)
+    context = {"products": products}
+    return render(request, 'search_result.html', context)
 

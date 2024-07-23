@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import New
 from costumerapp.models import Costumer
 
@@ -22,3 +22,18 @@ def new_detail(request, id): # id = 8
 
     context = {"new": one_new_object}
     return render(request, 'news_detail.html', context)
+
+def new_create(request):
+    if request.method == "GET":
+        return render(request, 'new_create.html')
+    elif request.method == "POST":
+        data = request.POST
+        title = data["new_title"]
+        text = data["new_article"]
+
+
+        new_object = New.objects.create(
+            title=title,
+            article=text,
+        )
+        return redirect(f'/new-detail/{new_object.id}/')

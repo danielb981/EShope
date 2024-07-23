@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load django_bootstrap5 %}
 {% block content %}
 
 {% if request.user.is_authenticated %}
@@ -15,16 +15,14 @@
 	</p>
 {% endif %}
 
-
-<!--<h1>Товары</h1>-->
-<!--{% for product in products %}-->
-<!--    <div>{{ product.id }}.-->
-<!--        <a href="/product/{{ product.id }}/">{{ product.name }}</a>-->
-<!--         - {{ product.price }} сом-->
-<!--    </div>-->
-<!--{% endfor %}-->
-
 <h1>Товары</h1>
+
+<p class="row">
+    <form class="col-lg-6" method="get">
+        {% bootstrap_form filter_object.form %}
+        <button class="btn btn-info">Применить</button>
+    </form>
+</p>
 
 <table class="table table-striped table-bordered table-hover">
 	<thead>
@@ -36,7 +34,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		{% for product in products %}
+		{% for product in filter_object.qs %}
 		<tr>
 			<th><a href="/product/{{ product.id }}/">{{ product.name }}</a></th>
 			<th>{{ product.category }}</th>

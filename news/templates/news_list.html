@@ -1,10 +1,18 @@
 {% extends 'base.html' %}
-
+{% load django_bootstrap5 %}
 {% block content %}
 
 <h1>Новости</h1>
+
+<p class="row">
+    <form class="col-lg-6" method="get">
+        {% bootstrap_form filter_object.form %}
+        <button class="btn btn-info">Применить</button>
+    </form>
+</p>
+
 <div class="row news-list">
-    {% for obj in news %}
+    {% for obj in filter_object.qs %}
         <div class="p-5 bg-warning rounded col-lg-3 col-md-5 col-sm-12">
             <a href="/new-detail/{{ obj.id }}/">{{ obj.title }}</a>
         </div>

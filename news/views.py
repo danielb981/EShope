@@ -1,11 +1,17 @@
 from django.shortcuts import render, redirect
 from .models import New
+from .filter import NewFilter
 from costumerapp.models import Costumer
 
 def news_list(request):
     news_queryset = New.objects.all()
 
-    context = {"news": news_queryset}
+    filter_object = NewFilter(
+        data=request.GET,
+        queryset=news_queryset
+    )
+
+    context = {"filter_object": filter_object}
 
     return render(request, 'news_list.html', context)
 

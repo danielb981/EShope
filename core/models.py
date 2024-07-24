@@ -32,6 +32,11 @@ class Product(models.Model):
         blank=True
     )
     views_qty = models.IntegerField(default=0)
+    photo = models.ImageField(
+        verbose_name="фото",
+        upload_to="profiles/",
+        null=True, blank=True
+    )
 
     def __str__(self):
         return self.name
@@ -44,6 +49,11 @@ class Profile(models.Model):
     user = models.OneToOneField(
         to=User,
         on_delete=models.SET_NULL,
+        null=True, blank=True
+    )
+    photo = models.ImageField(
+        verbose_name="фото",
+        upload_to="profiles/",
         null=True, blank=True
     )
 

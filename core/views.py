@@ -4,7 +4,7 @@ from costumerapp.models import Costumer
 from django.contrib.auth.models import User
 from .forms import ProductForm, ProfileForm, UserForm
 from .filters import ProductFilter
-
+from django.db.models import Q
 
 # Create your views here.
 def homepage(request):
@@ -92,8 +92,13 @@ def users_list(request):
 
 def search(request):
     keyword = request.GET["keyword"]
-    # LIKE
-    products = Product.objects.filter(name__icontains=keyword)
+    # WHERE name LIKE '%keyword%' OR description LIKE '%keyword%'
+    products = Product.objects.filter(
+        Q(name__icontains=keyword) |
+        Q(description__icontains=keyword) |
+        Q(category__name__icontains=keyword)
+
+    )
     context = {"products": products}
     return render(request, 'search_result.html', context)
 

@@ -16,6 +16,7 @@ class Product(models.Model):
     description = models.TextField(null=True, blank=True)
     price = models.IntegerField()
     qty = models.IntegerField(default=0)
+    image = models.ImageField(upload_to='product_images/', null=True, blank=True)
     category = models.ForeignKey(
         to=Category,
         on_delete=models.SET_NULL,

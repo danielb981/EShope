@@ -21,6 +21,7 @@
 			<th>Категория</th>
 			<th>Цена</th>
 			<th>Количество</th>
+			<th>Изменить</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -28,10 +29,14 @@
 		<tr>
 			<th><a href="/product/{{ product.id }}/">{{ product.name }}</a></th>
 			<th>{{ product.category }}</th>
+			 {% if product.image %}
+          		<img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 100px;">
+			 {% endif %}
 			<th>{{ product.price }}</th>
 			<th>{{ product.qty }}</th>
 		</tr>
 	{% endfor %}
+
 	</tbody>
 </table>
 <p class="row">

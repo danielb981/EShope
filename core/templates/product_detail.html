@@ -6,6 +6,9 @@
 <div>{{ product.description }}</div>
 <p>Цена: {{ product.price }} сом</p>
 <div>Осталось: {{ product.qty }}</div>
+{% if product.image %}
+    <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 300px;">
+{% endif %}
 <div>Категория: {{ product.category.name }}</div>
 <div>Просмотров: {{ product.views_qty }}</div>
 <div>Уникальные просмотры:  {{ product.costumer_views.count }}</div>

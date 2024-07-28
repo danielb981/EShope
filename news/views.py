@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import New
 from .filter import NewFilter
+from django.contrib import messages
 from costumerapp.models import Costumer
 
 def news_list(request):
@@ -42,4 +43,5 @@ def new_create(request):
             title=title,
             article=text,
         )
+        messages.success(request, "Новость добавлена успешно!")
         return redirect(f'/new-detail/{new_object.id}/')

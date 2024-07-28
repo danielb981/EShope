@@ -2,9 +2,12 @@ from django.shortcuts import redirect, render, HttpResponse
 from .models import *
 from costumerapp.models import Costumer
 from django.contrib.auth.models import User
-from .forms import ProductForm, ProfileForm, UserForm
+from .forms import ProductForm, ProfileForm, UserForm, RegistrationForm, AuthForm
 from .filters import ProductFilter
 from django.db.models import Q
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+
 
 # Create your views here.
 def homepage(request):
@@ -17,7 +20,7 @@ def homepage(request):
     )
 
     context = {"filter_object": filter_object}
-
+    # messages.add_message(request, messages.INFO, "Hello world")
     # return HttpResponse("Hello Django!")
     return render(request, 'index.html', context)
 
@@ -58,11 +61,14 @@ def product_create(request):
     if request.method == "GET":
         return render(request, 'product_create.html', context)
     if request.method == "POST":
-        product_form = ProductForm(request.POST)
+        product_form = ProductForm(request.POST, request.FILES)
         if product_form.is_valid():
             product_form.save()
-            return HttpResponse("Успешно сохранено!")
-        return HttpResponse("Ошибка валидации!")
+            messages.success(request, "Товар добавлен успешно!")
+            return redirect('/')
+        else:
+            messages.success(request, "Пройзошла ошибка!")
+        return redirect('/')
 
 
 def create_profile(request):
@@ -74,11 +80,58 @@ def create_profile(request):
             profile = profile_form.save(commit=False)
             profile.user = user
             profile.save()
+            messages.success(request, "Профиль добавлен!")
             return redirect('profile_list')
+        else:
+            messages.success(request, "Пройзошла ошибка!")
     else:
         user_form = UserForm()
         profile_form = ProfileForm()
     return render(request, 'create_profile.html', {'user_form': user_form, 'profile_form': profile_form})
+
+def product_update(request, id):
+    context = {}
+    product_object = Product.object.get(id=id)
+    context["form"] = ProductForm(instance=product_object)
+
+    if request.method == "GET":
+        return render(request, "product_update.html", context)
+    if request.method == "POST":
+        form = ProductForm(request.POST, request.FILES, instance=product_object)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Товар изменен!")
+            return redirect("/")
+        return HttpResponse("Ошибка валидации!")
+
+# def product_update(request, id):
+#     product = get_object_or_404(Product, id=id)
+#     if request.method == "POST":
+#         form = ProductUpdateForm(request.POST, request.FILES, instance=product)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, "Товар успешно обновлен!")
+#             return redirect('product-detail', id=product.id)
+#         else:
+#             messages.error(request, "Произошла ошибка при обновлении товара!")
+#     else:
+#         form = ProductUpdateForm(instance=product)
+#     return render(request, 'product_update.html', {'form': form, 'product': product})
+
+def profile_update(request, id):
+    context = {}
+    profile_object = Profile.objects.get(id=id)
+    context["form"] = ProfileForm(instance=profile_object)
+
+    if request.method == "GET":
+        return render(request, "profile/update.html", context)
+    if request.method == "POST":
+        form = ProfileForm(request.POST, request.FILES, instance=profile_object)
+        if form.is_valid():
+            form.save()
+            return HttpResponse("Успешно обновлено!")
+        return HttpResponse("Ошибка валидации!")
+
 
 def user_cabinet(request, id):
     user = User.objects.get(id=id)
@@ -101,4 +154,54 @@ def search(request):
     )
     context = {"products": products}
     return render(request, 'search_result.html', context)
+
+def registration(request):
+    context = {}
+
+    if request.method == "POST":
+        # create user object
+        reg_form = RegistrationForm(request.POST)
+        if reg_form.is_valid():
+            user_object = reg_form.save()
+            password = request.POST["password"]
+            user_object.set_password(password)
+            user_object.save()
+            messages.success(request, "Вы успешно зарегистрировались!")
+            return redirect('/')
+        return HttpResponse("Ошибка валидации")
+
+    reg_form = RegistrationForm()
+    context["reg_form"] = reg_form
+    return render(request, 'profile/registration.html', context)
+
+def signin(request):
+    context = {}
+
+    if request.method == "POST":
+        form = AuthForm(request.POST)
+        if form.is_valid():
+            username = request.POST["username"]
+            password = request.POST["password"]
+            user = authenticate(
+                request,
+                username=username,
+                password=password
+            )
+            if user is not None:
+                login(request, user)
+                messages.success(request, "Вы успешно авторизовались!")
+                return redirect('/')
+        messages.warning(request, "Логин и/или пароль неверны")
+    else:
+        messages.warning(request, "Данные не валидны")
+
+        form = AuthForm()
+        context["form"] = form
+        return render(request, 'profile/signin.html', context)
+
+
+
+def signout(request):
+    logout(request)
+    return redirect('/')
 

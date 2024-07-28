@@ -27,8 +27,6 @@ class ProductFilter(django_filters.FilterSet):
 
     class Meta:
         model = Product
-        model = Product
-        fields = ['name', 'category', 'price']
         fields = [
             'name', 'category',
             'price__gte', 'price__lte',

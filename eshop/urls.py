@@ -29,15 +29,19 @@ urlpatterns = [
     path('search/', search),
     path('product-create/', product_create, name='product-create'),
     path('product/<int:id>/', product_detail, name='product-detail'),
+    path('product/<int:id>/update/', product_update, name='product-update'),
     path('costumers/', costumer_view, name='costumer-list'),
     path('costumer_create/', costumer_create, name='costumer-create'),
     path('profile/', create_profile, name='profile_list' ),
     path('profile_create/', create_profile, name='profile-create'),
+    path('profile-update/<int:id>/', profile_update, name='profile-update'),
     path('news/', news_list, name='news-list'),
     path('new-detail/<int:id>/', new_detail, name='new-detail'),
     path('new-create/', new_create, name='new-create'),
+    path('registration/', registration, name='registration'),
+    path('signin/', signin, name='signin'),
+    path('signout/', signout, name='signout'),
     path('users/', users_list),
-
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)  # 3
 
 
